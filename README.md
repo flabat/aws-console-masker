@@ -5,7 +5,6 @@ The script will conceal sensible details from the AWS console while screen shari
 
 ## Installation
 
-TODO
+Install from https://github.com/flabat/aws-console-masker/raw/master/aws-console-masker.user.js
 
-## Changing what to replace
 
