@@ -29,7 +29,7 @@
     ];
     var numTerms = replaceArry.length;
     //-- 5 times/second; Plenty fast.
-    var transTimer = setInterval (translateTermsOnPage, 222);
+    var transTimer = setInterval (translateTermsOnPage, 500);
 
     function translateTermsOnPage () {
         /*--- Replace text on the page without busting links or javascript
@@ -51,31 +51,31 @@
             },
             false
         );
-        var txtNode     = null;
-        while (txtNode  = txtWalker.nextNode () ) {
-            txtNode.nodeValue       = replaceAllTerms (txtNode.nodeValue);
-            txtNode.tmWasProcessed  = true;
+        var txtNode = null;
+        while (txtNode = txtWalker.nextNode () ) {
+            txtNode.nodeValue = replaceAllTerms (txtNode.nodeValue);
+            txtNode.tmWasProcessed = true;
         }
         //
         //--- Now replace user-visible attributes.
         //
-        var placeholderNodes    = document.querySelectorAll ("[placeholder]");
+        var placeholderNodes = document.querySelectorAll ("[placeholder]");
         replaceManyAttributeTexts (placeholderNodes, "placeholder");
 
-        var titleNodes          = document.querySelectorAll ("[title]");
+        var titleNodes = document.querySelectorAll ("[title]");
         replaceManyAttributeTexts (titleNodes, "title");
     }
 
     function replaceAllTerms (oldTxt) {
-        for (var J  = 0;  J < numTerms;  J++) {
-            oldTxt  = oldTxt.replace (replaceArry[J][0], replaceArry[J][1]);
+        for (var J = 0; J < numTerms; J++) {
+            oldTxt = oldTxt.replace (replaceArry[J][0], replaceArry[J][1]);
         }
         return oldTxt;
     }
 
     function replaceManyAttributeTexts (nodeList, attributeName) {
         for (var J = nodeList.length - 1;  J >= 0;  --J) {
-            var node    = nodeList[J];
+            var node = nodeList[J];
             var oldText = node.getAttribute (attributeName);
             if (oldText) {
                 oldText = replaceAllTerms (oldText);
