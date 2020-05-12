@@ -20,27 +20,27 @@
     // Array of terms to replace, you can use Regular expressions.
 
     var replaceArry = [
-        [/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/,'johndoe@example.com'], // email address
-        [/\d{12}/,'123456789012'], // 12 digit AWS Account #s
+        [/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/, 'johndoe@example.com'], // email address
+        [/\d{12}/, '123456789012'], // 12 digit AWS Account #s
         [/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/, '10.24.34.0'], // IP Addresses
         [/\b\d{1,3}\-\d{1,3}\-\d{1,3}\-\d{1,3}\b/, '10-24-34-0'], // EC2 DNS CNAME IPs
-        [/(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/,'AIDACKCEVSQ6C2EXAMPLE'], // IAM Access Key ID
+        [/(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/, 'AIDACKCEVSQ6C2EXAMPLE'], // IAM Access Key ID
         // etc.
     ];
     var numTerms = replaceArry.length;
     //-- 5 times/second; Plenty fast.
-    var transTimer = setInterval (translateTermsOnPage, 500);
+    var transTimer = setInterval(translateTermsOnPage, 500);
 
-    function translateTermsOnPage () {
+    function translateTermsOnPage() {
         /*--- Replace text on the page without busting links or javascript
         functionality.
     */
-        var txtWalker   = document.createTreeWalker (
+        var txtWalker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT, {
                 acceptNode: function (node) {
                     //-- Skip whitespace-only nodes
-                    if (node.nodeValue.trim() ) {
+                    if (node.nodeValue.trim()) {
                         if (node.tmWasProcessed)
                             return NodeFilter.FILTER_SKIP;
                         else
@@ -52,36 +52,35 @@
             false
         );
         var txtNode = null;
-        while (txtNode = txtWalker.nextNode () ) {
-            txtNode.nodeValue = replaceAllTerms (txtNode.nodeValue);
+        while (txtNode = txtWalker.nextNode()) {
+            txtNode.nodeValue = replaceAllTerms(txtNode.nodeValue);
             txtNode.tmWasProcessed = true;
         }
         //
         //--- Now replace user-visible attributes.
         //
-        var placeholderNodes = document.querySelectorAll ("[placeholder]");
-        replaceManyAttributeTexts (placeholderNodes, "placeholder");
+        var placeholderNodes = document.querySelectorAll("[placeholder]");
+        replaceManyAttributeTexts(placeholderNodes, "placeholder");
 
-        var titleNodes = document.querySelectorAll ("[title]");
-        replaceManyAttributeTexts (titleNodes, "title");
+        var titleNodes = document.querySelectorAll("[title]");
+        replaceManyAttributeTexts(titleNodes, "title");
     }
 
-    function replaceAllTerms (oldTxt) {
+    function replaceAllTerms(oldTxt) {
         for (var J = 0; J < numTerms; J++) {
-            oldTxt = oldTxt.replace (replaceArry[J][0], replaceArry[J][1]);
+            oldTxt = oldTxt.replace(replaceArry[J][0], replaceArry[J][1]);
         }
         return oldTxt;
     }
 
-    function replaceManyAttributeTexts (nodeList, attributeName) {
-        for (var J = nodeList.length - 1;  J >= 0;  --J) {
+    function replaceManyAttributeTexts(nodeList, attributeName) {
+        for (var J = nodeList.length - 1; J >= 0; --J) {
             var node = nodeList[J];
-            var oldText = node.getAttribute (attributeName);
+            var oldText = node.getAttribute(attributeName);
             if (oldText) {
-                oldText = replaceAllTerms (oldText);
-                node.setAttribute (attributeName, oldText);
-            }
-            else
+                oldText = replaceAllTerms(oldText);
+                node.setAttribute(attributeName, oldText);
+            } else
                 throw "attributeName does not match nodeList in replaceManyAttributeTexts";
         }
     }
