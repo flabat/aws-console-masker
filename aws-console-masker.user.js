@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWSConsoleMasker
 // @namespace    http://aws.amazon.com/
-// @version      0.11
+// @version      0.12
 // @description  Mask PII data like AWS Account #s and IPs in the AWS Console.
 // @author       labatf@amazon.com
 // @match        https://*.console.aws.amazon.com/*
