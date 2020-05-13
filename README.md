@@ -2,7 +2,7 @@
 
 A browser script that replaces sensitive information from the AWS Console.
 
-The script will conceal details from the AWS console while screen sharing, recording a demo, etc.
+The script conceals details from the AWS console, useful for screen sharing, screenshots, recording a demo, etc.
 
 ## Installation
 
@@ -18,8 +18,8 @@ var replaceArry = [
         [/\d{12}/, '123456789012'], // 12 digit AWS Account #s
         [/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/, '10.24.34.0'], // IP Addresses
         [/\b\d{1,3}\-\d{1,3}\-\d{1,3}\-\d{1,3}\b/, '10-24-34-0'], // EC2 DNS CNAME IPs
-        [/(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/, 'AIDACKCEVSQ6C2EXAMPLE'], // IAM Access Key ID
+        [/(^|[^A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/, 'AIDACKCEVSQ6C2EXAMPLE'], // IAM Access Key ID
         // etc.
- ];
+        ];
  ```
 
